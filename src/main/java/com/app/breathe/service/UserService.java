@@ -10,8 +10,10 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
+
     public User saveGoogleUser(String name, String email, String profilePicture) {
         Optional<User> existingUser= Optional.ofNullable(userRepository.findByEmail(email));
         if(existingUser.isPresent()) {

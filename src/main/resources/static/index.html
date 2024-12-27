@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Breathe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Rubik+Vinyl&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Lexend", serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            top: 0;
+            padding: 0.5rem 1rem;
+            position: sticky;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-nav .nav-link {
+            color: #2c3e50;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #1c3f3a;
+        }
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #f4f6f8, #ffffff);
+            text-align: center;
+            padding: 2rem;
+        }
+        .hero-section h1 {
+            font-family: "Lexend", serif;
+            font-size: 3rem;
+            font-weight: 600;
+            font-style: normal;
+            margin-bottom: 1rem;
+        }
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+            display: block;
+            margin: 0 auto 1rem;
+        }
+        .cta-button, .btn {
+            background-color: #1c3f3a;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover, .btn:hover {
+            background-color: rgba(86,120,108,0.87)
+        }
+        #features {
+            background-color: #ffffff;
+            padding: 4rem 2rem;
+        }
+        #features h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #1c3f3a;
+        }
+        .feature-card {
+            background-color: #f4f6f8;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h4 {
+            font-weight: 700;
+            color: #1c3f3a;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: #2c3e50;
+            flex-grow: 1; /* Makes text block flexible for even spacing */
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar .nav-item {
+                margin-inline-end: 20px;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+        }
+        .footer {
+            background-color: #1c3f3a;
+            color: #f8f9fa;
+            padding: 3rem 2rem;
+        }
+        .footer a {
+            color: #f8f9fa;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+        .footer h5 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .footer ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+            <img src="imgs/breath2.svg" class="img-fluid" alt="breathelogo" style="height: 45px; width: auto;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <button class="btn" href="login.html">Login</button>
+    </div>
+</nav>
+<section id="home">
+<div class="hero-section">
+    <div class="container">
+            <h1>Breathe - Find Your Inner Peace</h1>
+            <p>Discover a haven of mindfulness and serenity. "Breathe" is your ultimate guide to meditation and relaxation. <br> Whether you're seeking stress relief, better focus, or a path to self-discovery, <br> our guided meditations and resources are here to support you on your journey.</p>
+            <a href="login.html" class="cta-button">Get Started</a>
+        </section>
+    </div>
+</div>
+<div>
+    <section id="features" class="py-5 bg-white">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col text-center">
+                    <img src="imgs/meditate.jpg" alt="Meditate" class="img-fluid" style="max-width: 70%; border-radius: 10px;">
+                </div>
+        </div>
+            <br>
+            <div class="row mb-4">
+                <div class="col text-center">
+                    <h2>Why Choose Us?</h2>
+                </div>
+                <br>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                    <h4>Weekly Mood Analysis</h4>
+                    <p>Stay in tune with your emotions. Our weekly mood tracker offers insights into your emotional patterns and helps you understand how your mood evolves over time, empowering you to take control of your mental well-being.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                    <h4>Tailored Meditations</h4>
+                    <p>Discover the power of personalized mindfulness. Based on your mood, we curate meditation sessions designed to uplift your spirit, calm your mind, and enhance your emotional balance effectively.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                    <h4>Minimalistic UI</h4>
+                    <p>Navigate effortlessly with a sleek and intuitive interface. Our design ensures a distraction-free and seamless experience, so you can focus on what truly matters—your meditation and mindfulness journey.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div>
+
+    <section id="contact" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: <a href="mailto:support@breathe.com">support@breathe.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+1 234 567 890</a></p>
+                    <p>Location: 123 Serenity Lane, Peaceville</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                    <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 Breathe. All rights reserved.</p>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-qBFte4gUYIbW8CV2qZp7NFDd0+1F7HcqDLGQEuA9LTz+Sm8CFNmlN7V85Z2CFlbP" crossorigin="anonymous"></script>
+</body>
+</html>
