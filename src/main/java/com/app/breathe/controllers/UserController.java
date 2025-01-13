@@ -16,11 +16,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public User loginWithGoogle(@RequestBody Map<String, String> googleData) {
-        String name = googleData.get("name");
-        String email = googleData.get("email");
-        String profilePicture = googleData.get("profilePicture");
-        return userService.saveGoogleUser(name, email, profilePicture);
-    }
+//    @PostMapping
+//    public User loginWithGoogle(@RequestBody Map<String, String> googleData) {
+//        String name = googleData.get("name");
+//        String email = googleData.get("email");
+//        String profilePicture = googleData.get("profilePicture");
+//        String role = googleData.get("role");
+//        return userService.saveGoogleUser(name, email, profilePicture);
+//    }
 }

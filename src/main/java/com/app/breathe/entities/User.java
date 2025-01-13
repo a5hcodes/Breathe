@@ -1,32 +1,48 @@
 package com.app.breathe.entities;
 
+import com.google.firebase.database.annotations.NotNull;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDateTime;
 
-@Document(collection = "Users")
+
 public class User {
     @Id
-    private String id;
+    private String uid;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String email;
+
     private String profilePicture;
+
+    @CreatedDate
     private LocalDateTime createdAt;
+
+    @NotNull
     private String role;
 
-    public User() {
+    public User (){
+
+    }
+
+    public User(String uid, String name, String email, String profilePicture, LocalDateTime createdAt, String role) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.profilePicture = profilePicture;
         this.role = role;
+        this.createdAt = createdAt;
     }
 
-    public String getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
