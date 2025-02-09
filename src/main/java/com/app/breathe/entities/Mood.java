@@ -1,36 +1,33 @@
 package com.app.breathe.entities;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import java.time.LocalDate;
 
-@Document(collection = "moods")
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.firebase.database.PropertyName;
+
+import java.util.Date;
+
 public class Mood {
-
-    @Id
-    private ObjectId mid;
+    @DocumentId
+    private String id;
     private String uid; // Ref to User
-    private LocalDate date;
     private String mood;
+    @PropertyName("date")
+    private Date date;
 
-    public Mood() {
-        super();
-    }
+    public Mood() {}
 
-    public Mood(ObjectId mid, String uid, LocalDate date, String mood) {
-        this.mid = mid;
+    public Mood(String id, String uid, Date date, String mood) {
+        this.id = id;
         this.uid = uid;
         this.date = date;
         this.mood = mood;
     }
 
-    public ObjectId getMid() {
-        return mid;
+    public String getId() {
+        return id;
     }
-
-    public void setMid(ObjectId mid) {
-        this.mid = mid;
+    public void setId(String id) {
+        this.id = id;
     }
     public String getUid() {
         return uid;
@@ -39,10 +36,10 @@ public class Mood {
     public void setUid(String uid) {
         this.uid = uid;
     }
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     public String getMood() {

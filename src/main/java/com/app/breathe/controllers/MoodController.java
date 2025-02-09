@@ -1,16 +1,14 @@
 package com.app.breathe.controllers;
 
-import com.app.breathe.entities.Meditation;
 import com.app.breathe.entities.Mood;
-import com.app.breathe.service.MeditationService;
 import com.app.breathe.service.MoodService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/moods")
@@ -18,55 +16,38 @@ public class MoodController {
 
     @Autowired
     private MoodService moodService;
-//    private MeditationService meditationService;
 
-    @GetMapping
-    public List <Mood> getAllMoods(@RequestParam String uid){
-        return moodService.getAllMoods(uid);
-    }
-
+    // 🔹 Save Mood (Only if UID matches authenticated user)
     @PostMapping
-    public Mood createMood(@RequestBody Mood mood){
-        mood.setDate(LocalDate.now());
-        moodService.saveMood(mood);
-        return mood;
-    }
+    public ResponseEntity<String> createMood(@RequestBody Mood mood, Authentication authentication) {
+        try {
+            String loggedInUid = authentication.getName(); // Extract UID from JWT token
 
-//    public Mood getMood(){
-//        return new Mood( "user1", LocalDate.now(), "happy");
-//    }
+            if (!mood.getUid().equals(loggedInUid)) {
+                return ResponseEntity.status(403).body("Unauthorized: Cannot save mood for another user.");
+            }
 
-    @GetMapping("/{id}")
-    public Mood getMoodById(@PathVariable ObjectId id){
-        return moodService.getMoodById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteMoodById(@PathVariable ObjectId id){
-        moodService.deleteMoodById(id);
-        return "Mood with ID " + id + "was deleted.";
-    }
-
-    @PutMapping("/{id}")
-    public Mood updateMoodById(@PathVariable ObjectId id, @RequestBody Mood mood){
-        return moodService.updateMood(id,mood.getUid(), mood.getMood());
-    }
-
-
-    @GetMapping("/weekly")
-    public ResponseEntity<List<Mood>> getWeeklyMoods(@RequestParam String uid){
-        List <Mood> moods =  moodService.getWeeklyMoods(uid);
-        if (moods.isEmpty()){
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(moods);
+            moodService.saveMood(mood);
+            return ResponseEntity.ok("Mood saved successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error saving mood: " + e.getMessage());
         }
     }
 
-//
-//    @GetMapping("/meditation/{mood}")
-//    public Meditation getRandomMeditation(@PathVariable String mood){
-//        return meditationService.getRandomMeditation(mood);
-//    }
-}
+    // 🔹 Get Weekly Mood Data (Only for Authenticated User)
+    @GetMapping("/weekly")
+    public ResponseEntity<List<Mood>> getWeeklyMoods(Authentication authentication) {
+        try {
+            String uid = authentication.getName(); // Ensure user gets only their moods
+            List<Mood> moods = moodService.getWeeklyMoods(uid);
 
+            if (moods.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(moods);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}

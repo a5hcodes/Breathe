@@ -1,34 +1,41 @@
 package com.app.breathe.service;
 
 import com.app.breathe.entities.Meditation;
-import com.app.breathe.repositories.MeditationRepository;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class MeditationService {
 
+    private final Firestore firestore; // Declare Firestore as a final dependency
+
     @Autowired
-    private MeditationRepository meditationRepository;
-
-    public Meditation saveMeditation(Meditation meditation) {
-        return meditationRepository.save(meditation);
+    public MeditationService(Firestore firestore) {
+        this.firestore = firestore;
     }
 
-//    public List<Meditation> getAllMeditation(String title, String audioFilePath) {
-//        return meditationRepository.getAllMeditations(title, audioFilePath);
-//    }
+    // 🔹 Fetch a Random Meditation Based on Mood
+    public Meditation getRandomMeditation(String mood) throws ExecutionException, InterruptedException {
+        QuerySnapshot snapshot = firestore.collection("meditations")
+                .whereEqualTo("mood", mood)
+                .get()
+                .get();
 
-    public Meditation getRandomMeditation(String mood) {
-        List<Meditation> meditationList = meditationRepository.findByMood(mood);
+        List<Meditation> meditations = snapshot.getDocuments().stream()
+                .map(doc -> doc.toObject(Meditation.class))
+                .collect(Collectors.toList());
 
-        if (meditationList.isEmpty()) {
-            throw new IllegalArgumentException("No meditations found for the mood: " + mood);
+        if (meditations.isEmpty()) {
+            throw new IllegalArgumentException("No meditations found for mood: " + mood);
         }
-        Random random = new Random();
-        return meditationList.get(random.nextInt(meditationList.size()));
+
+        return meditations.get(new Random().nextInt(meditations.size()));
     }
-    }
+}

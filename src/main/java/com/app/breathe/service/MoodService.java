@@ -1,51 +1,51 @@
 package com.app.breathe.service;
 
 import com.app.breathe.entities.Mood;
-import com.app.breathe.repositories.MoodRepository;
-import org.bson.types.ObjectId;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
-@Component
+@Service
 public class MoodService {
 
     @Autowired
-    private MoodRepository moodRepository;
+    private Firestore firestore;
 
-    public Mood saveMood(Mood mood) {
-        return moodRepository.save(mood);
+    //  Ensure UID Exists Before Saving Mood
+    public void saveMood(Mood mood) throws ExecutionException, InterruptedException {
+        DocumentSnapshot userDoc = firestore.collection("users").document(mood.getUid()).get().get();
+
+        if (!userDoc.exists()) {
+            throw new IllegalArgumentException("User with UID " + mood.getUid() + " does not exist.");
+        }
+
+        firestore.collection("moods")
+                .document(mood.getUid() + "_" + mood.getDate())
+                .set(mood)
+                .get();
     }
 
-    public List<Mood> getAllMoods(String uid) {
-        return moodRepository.findByUid(uid);
-    }
-
-    public Mood getMoodById(ObjectId mid) {
-        return moodRepository.findById(mid).orElseThrow(() -> new RuntimeException("Mood not found"));
-    }
-
-    public Mood updateMood(ObjectId mid, String uid , String mood ) {
-        Mood m = getMoodById(mid);
-        m.setMood(mood);
-        m.setUid(uid);
-        return moodRepository.save(m);
-    }
-
-    public void deleteMoodById(ObjectId mid){
-         moodRepository.deleteById(mid);
-    }
-
-    public List<Mood> getWeeklyMoods (String uid) {
-        LocalDate endDate =  LocalDate.now();
+    //  Fetch moods for the last 7 days for a given UID
+    public List<Mood> getWeeklyMoods(String uid) throws ExecutionException, InterruptedException {
+        LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(7);
-        return moodRepository.findMoodsByUidAndDateBetween(uid, startDate,endDate);
 
+        QuerySnapshot snapshot = firestore.collection("moods")
+                .whereEqualTo("uid", uid)
+                .whereGreaterThanOrEqualTo("date", startDate.toString())
+                .whereLessThanOrEqualTo("date", endDate.toString())
+                .get()
+                .get();
+
+        return snapshot.getDocuments().stream()
+                .map(doc -> doc.toObject(Mood.class))
+                .collect(Collectors.toList());
     }
-
-
-
-
 }
