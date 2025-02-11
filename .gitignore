@@ -34,3 +34,4 @@ build/
 
 ### Firebase AdminSDK ###
 .firebase/
+src/main/resources/firebase/breathe-3795c-firebase-adminsdk-m9bji-b9d4fd3d84.json
