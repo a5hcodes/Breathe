@@ -17,16 +17,18 @@ public class MoodController {
     @Autowired
     private MoodService moodService;
 
-    // 🔹 Save Mood (Only if UID matches authenticated user)
+    //  Save Mood (Only if UID matches authenticated user)
     @PostMapping
     public ResponseEntity<String> createMood(@RequestBody Mood mood, Authentication authentication) {
         try {
             String loggedInUid = authentication.getName(); // Extract UID from JWT token
 
-            if (!mood.getUid().equals(loggedInUid)) {
+            // Prevent saving mood for another user
+            if (mood.getUid() == null || !mood.getUid().equals(loggedInUid)) {
                 return ResponseEntity.status(403).body("Unauthorized: Cannot save mood for another user.");
             }
 
+            // Call service to save the mood
             moodService.saveMood(mood);
             return ResponseEntity.ok("Mood saved successfully.");
         } catch (Exception e) {
@@ -34,20 +36,20 @@ public class MoodController {
         }
     }
 
-    // 🔹 Get Weekly Mood Data (Only for Authenticated User)
+    //  Get Weekly Mood Data (Only for Authenticated User)
     @GetMapping("/weekly")
-    public ResponseEntity<List<Mood>> getWeeklyMoods(Authentication authentication) {
+    public ResponseEntity<?> getWeeklyMoods(Authentication authentication) {
         try {
             String uid = authentication.getName(); // Ensure user gets only their moods
             List<Mood> moods = moodService.getWeeklyMoods(uid);
 
             if (moods.isEmpty()) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.noContent().build(); // ✅ Correct HTTP 204 for empty results
             } else {
                 return ResponseEntity.ok(moods);
             }
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body("Error fetching moods: " + e.getMessage());
         }
     }
 }

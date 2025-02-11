@@ -1,10 +1,9 @@
 package com.app.breathe.entities;
 
-
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.firebase.database.PropertyName;
+import com.google.cloud.Timestamp;
 
-import java.util.Date;
 
 public class Mood {
     @DocumentId
@@ -12,11 +11,11 @@ public class Mood {
     private String uid; // Ref to User
     private String mood;
     @PropertyName("date")
-    private Date date;
+    private Timestamp date; // Changed from Date to Timestamp
 
     public Mood() {}
 
-    public Mood(String id, String uid, Date date, String mood) {
+    public Mood(String id, String uid, Timestamp date, String mood) {
         this.id = id;
         this.uid = uid;
         this.date = date;
@@ -32,14 +31,13 @@ public class Mood {
     public String getUid() {
         return uid;
     }
-
     public void setUid(String uid) {
         this.uid = uid;
     }
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
     public String getMood() {
@@ -48,6 +46,4 @@ public class Mood {
     public void setMood(String mood) {
         this.mood = mood;
     }
-
-
 }
