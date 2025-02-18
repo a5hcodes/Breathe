@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Journal | Breathe</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #1c3f3a;
+      --secondary-color: rgba(86,120,108,0.87);
+      --tertiary-color: #e9f7e6;
+      --bg-light: #f8f9fa;
+      --text-color: #2c3e50;
+    }
+
+    body {
+      font-family: "Lexend", sans-serif;
+      background-color: var(--bg-light);
+      padding-top: 80px; /* For fixed navbar */
+    }
+
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem 0;
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      margin: 0 0.5rem;
+    }
+
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+
+    .btn-logout {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .journal-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 20px;
+    }
+
+    .journal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .journal-header h1 {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .journal-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(28, 63, 58, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      height: 220px;
+    }
+
+    .journal-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    .journal-card-header {
+      margin-bottom: 0.8rem;
+    }
+
+    .journal-card-header h3 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .journal-card-content {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      flex-grow: 1;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    .journal-card-footer {
+      margin-top: auto;
+      text-align: right;
+      color: #777;
+      font-size: 0.85rem;
+    }
+
+    .btn-add-entry {
+      padding: 0.7rem 1.5rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-add-entry:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .btn-add-entry i {
+      margin-right: 0.5rem;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+    }
+
+    #journal-title, #journal-content {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      font-family: "Lexend", sans-serif;
+    }
+
+    #journal-content {
+      min-height: 200px;
+      resize: vertical;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-save {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-save:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .modal-footer button {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .journal-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal {
+        width: 95%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="imgs/breathelogo.png" alt="Breathe Logo" style="height: 40px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="home.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="journal.html">Journal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="healing.html">Affirmations</a>
+        </li>
+      </ul>
+      <a class="btn btn-logout" id="logoutBtn" href="#">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Journal Content -->
+<div class="journal-container">
+  <div class="journal-header">
+    <h1>My Journal</h1>
+    <button id="add-entry-btn" class="btn-add-entry">
+      <i class="fas fa-plus"></i> Add New Entry
+    </button>
+  </div>
+
+  <div class="journal-grid" id="journal-grid">
+    <!-- Journal entries will be dynamically added here -->
+  </div>
+</div>
+
+<!-- Journal Entry Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">New Journal Entry</h2>
+      <button id="modal-close" class="modal-close">&times;</button>
+    </div>
+    <input type="text" id="journal-title" placeholder="Enter Title">
+    <textarea id="journal-content" placeholder="Write your journal..."></textarea>
+    <div class="modal-footer">
+      <button id="delete-entry" class="btn-delete" style="display: none;">Delete</button>
+      <button id="close-modal" class="btn-cancel">Cancel</button>
+      <button id="save-entry" class="btn-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA9tpB9YBsZsEup-uj6AP9enfPYDdhii1M",
+    authDomain: "breathe-3795c.firebaseapp.com",
+    projectId: "breathe-3795c",
+    messagingSenderId: "655166159122",
+    appId: "1:655166159122:web:82082e3588f743d1621bcb"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  let currentUserId = null;
+
+  // Sample journal data for dummy UI
+  const dummyJournals = [
+    {
+      id: 1,
+      title: "Finding Peace in Chaos",
+      content: "Today was particularly stressful at work, but I found moments of calm through my 15-minute meditation session. I'm learning that even in chaos, there are pockets of peace if we look for them. I'm grateful for this practice that helps me stay centered.",
+      date: "February 15, 2025"
+    },
+    {
+      id: 2,
+      title: "New Morning Routine",
+      content: "I started a new morning routine today that includes journaling, light stretching, and a short meditation. I feel so much more centered and focused. Will try to maintain this for the next month and see how it affects my overall well-being.",
+      date: "February 10, 2025"
+    },
+    {
+      id: 3,
+      title: "Gratitude Reflection",
+      content: "Today I took time to list three things I'm grateful for: 1) My supportive friends who always listen 2) Having access to healthy food 3) The beautiful weather that allowed me to take a long walk. Small joys make such a difference.",
+      date: "February 5, 2025"
+    },
+    {
+      id: 4,
+      title: "Overcoming Anxiety",
+      content: "Had an anxiety spike this afternoon before my presentation. Instead of letting it overwhelm me, I practiced deep breathing for 5 minutes. It helped tremendously and I was able to deliver my presentation confidently. Progress!",
+      date: "January 28, 2025"
+    },
+    {
+      id: 5,
+      title: "Weekend Reflection",
+      content: "This weekend was exactly what I needed - quiet time at home, reading, and connecting with family. I'm entering the new week feeling refreshed and ready to take on challenges with a positive mindset.",
+      date: "January 20, 2025"
+    },
+    {
+      id: 6,
+      title: "Digital Detox Experience",
+      content: "I tried a 24-hour digital detox yesterday. No phone, no social media, no emails. It was surprisingly difficult at first, but by the end, I felt more present and relaxed than I have in months. Definitely doing this again soon.",
+      date: "January 12, 2025"
+    }
+  ];
+
+  // Logout functionality
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    signOut(auth).then(() => {
+      window.location.href = "login.html";
+    });
+  });
+
+  // Handle authentication state
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUserId = user.uid;
+      renderDummyJournals(); // For demo, use dummy data
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+
+  // Function to render dummy journals for UI demo
+  function renderDummyJournals() {
+    const journalGrid = document.getElementById("journal-grid");
+    journalGrid.innerHTML = "";
+
+    dummyJournals.forEach(journal => {
+      const card = document.createElement("div");
+      card.classList.add("journal-card");
+
+      card.innerHTML = `
+          <div class="journal-card-header">
+            <h3>${journal.title}</h3>
+          </div>
+          <div class="journal-card-content">
+            ${journal.content.length > 140 ? journal.content.substring(0, 140) + "..." : journal.content}
+          </div>
+          <div class="journal-card-footer">
+            ${journal.date}
+          </div>
+        `;
+
+      card.onclick = () => openModal(journal);
+      journalGrid.appendChild(card);
+    });
+  }
+
+  // Function to open the modal for editing or creating a journal entry
+  function openModal(journal = null) {
+    document.getElementById("modal-title").innerText = journal ? "Edit Journal Entry" : "New Journal Entry";
+    document.getElementById("journal-title").value = journal ? journal.title : "";
+    document.getElementById("journal-content").value = journal ? journal.content : "";
+    document.getElementById("save-entry").onclick = () => saveJournal(journal ? journal.id : null);
+    document.getElementById("delete-entry").style.display = journal ? "block" : "none";
+
+    if (journal) {
+      document.getElementById("delete-entry").onclick = () => deleteJournal(journal.id);
+    }
+
+    document.getElementById("modal-overlay").style.display = "flex";
+  }
+
+  // Function to save or update a journal entry (mock functionality)
+  function saveJournal(id) {
+    const title = document.getElementById("journal-title").value.trim();
+    const content = document.getElementById("journal-content").value.trim();
+
+    if (!title || !content) {
+      alert("Please enter both title and content!");
+      return;
+    }
+
+    // Mock saving behavior
+    if (id) {
+      // Update existing entry in dummy data
+      const index = dummyJournals.findIndex(j => j.id === id);
+      if (index !== -1) {
+        dummyJournals[index].title = title;
+        dummyJournals[index].content = content;
+      }
+    } else {
+      // Add new entry to dummy data
+      const newId = dummyJournals.length + 1;
+      dummyJournals.unshift({
+        id: newId,
+        title: title,
+        content: content,
+        date: "February 17, 2025" // Today's date
+      });
+    }
+
+    closeModal();
+    renderDummyJournals();
+  }
+
+  // Function to delete a journal entry (mock functionality)
+  function deleteJournal(id) {
+    const index = dummyJournals.findIndex(j => j.id === id);
+    if (index !== -1) {
+      dummyJournals.splice(index, 1);
+    }
+
+    closeModal();
+    renderDummyJournals();
+  }
+
+  // Function to close the modal
+  function closeModal() {
+    document.getElementById("modal-overlay").style.display = "none";
+  }
+
+  // Event listener for "Add New Entry" button
+  document.getElementById("add-entry-btn").onclick = () => openModal();
+
+  // Event listeners for modal close/cancel buttons
+  document.getElementById("close-modal").onclick = closeModal;
+  document.getElementById("modal-close").onclick = closeModal;
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

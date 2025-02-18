@@ -3,33 +3,109 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Breathe - Home</title>
+    <title>Breathe - Mood Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Rubik+Vinyl&display=swap"
-            rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
     <style>
         :root {
             --primary-color: #1c3f3a;
-            --secondary-color: #f4f6f8;
+            --secondary-color: #56786c;
+            --bg-light: #f8f9fa;
+            --text-color: #2c3e50;
         }
+
         body {
-            font-family: "Lexend", serif;
-            background-color: var(--secondary-color);
+            font-family: "Lexend", sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-light);
         }
-        .navbar-brand {
-            color: var(--primary-color) !important;
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Updated and new styles for charts */
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .charts-container {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            color: var(--primary-color);
+            font-size: 1.2rem;
             font-weight: 600;
-            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
         }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+        /* Rest of your existing styles */
+        .mood-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+
         .mood-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -38,122 +114,137 @@
             background-color: white;
             border: 2px solid var(--primary-color);
             margin: 0 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
+
         .mood-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
+
         .mood-icon.selected {
             background-color: var(--primary-color);
-            color: white;
+            transform: translateY(-5px);
         }
+
         .mood-icon i {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--primary-color);
+            transition: color 0.3s ease;
         }
+
         .mood-icon.selected i {
             color: white;
         }
+
         .mood-label {
             text-align: center;
-            margin-top: 8px;
-            font-weight: 500;
+            margin-top: 12px;
+            font-weight: 600;
             color: var(--primary-color);
+            font-size: 1.1rem;
         }
-        .dashboard-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            min-height: 300px;
-        }
-        .week-summary {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .mood-history {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding: 20px;
+
+        .btn-logout {
             background-color: white;
-            border-radius: 10px;
-        }
-        .day-mood {
-            text-align: center;
-            padding: 10px;
-        }
-        .day-mood i {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
             color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .mood-selection-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            .charts-container {
+                flex-direction: column;
+            }
+
+            .chart-wrapper {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mood-icon {
+                width: 80px;
+                height: 80px;
+                margin: 0 10px;
+            }
+
+            .mood-icon i {
+                font-size: 2.2rem;
+            }
+
+            .mood-container {
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">breathe</a>
-        <div class="d-flex align-items-center">
-            <a class="nav-link me-4" href="home.html">Home</a>
-            <a class="btn btn-outline-danger" id="logoutBtn" href="#">Logout</a>
+        <a class="navbar-brand" href="#">
+            <img src="imgs/breathelogo.png" alt="Breathe Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="journal.html">Journal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="healing.html">Affirmations</a>
+                </li>
+            </ul>
+            <a class="btn btn-logout" id="logoutBtn" href="#">Logout</a>
         </div>
     </div>
 </nav>
-
 <!-- Main Content -->
-<div class="container py-5">
-    <h1 class="mb-4">Mood Tracker</h1>
-
-    <!-- Weekly Overview Card -->
+<div class="container" style="margin-top: 100px;">
     <div class="dashboard-card">
-        <h3 class="mb-4">Your Week in Moods</h3>
-        <div class="mood-history">
-            <!-- Previous days' moods - these would be populated dynamically -->
-            <div class="day-mood">
-                <div>Mon</div>
-                <i class="fas fa-smile-beam"></i>
+        <h3>Your Weekly Mood Journey</h3>
+        <div class="charts-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">Mood Distribution Over Time</div>
+                <div class="chart-container">
+                    <canvas id="moodBarChart"></canvas>
+                </div>
             </div>
-            <div class="day-mood">
-                <div>Tue</div>
-                <i class="fas fa-laugh-beam"></i>
+            <div class="chart-wrapper">
+                <div class="chart-title">Overall Mood Breakdown</div>
+                <div class="chart-container">
+                    <canvas id="moodPieChart"></canvas>
+                </div>
             </div>
-            <div class="day-mood">
-                <div>Wed</div>
-                <i class="fas fa-frown"></i>
-            </div>
-            <div class="day-mood">
-                <div>Thu</div>
-                <i class="fas fa-smile-beam"></i>
-            </div>
-            <div class="day-mood">
-                <div>Fri</div>
-                <i class="fas fa-smile"></i>
-            </div>
-            <div class="day-mood">
-                <div>Sat</div>
-                <i class="fas fa-meh"></i>
-            </div>
-            <div class="day-mood">
-                <div>Sun</div>
-                <i class="fas fa-smile-beam"></i>
-            </div>
-        </div>
-        <div class="week-summary mt-4">
-            <h4>Weekly Overview</h4>
-            <p>Your mood has been mostly positive this week. Consider maintaining your current meditation routine!</p>
         </div>
     </div>
 
     <!-- Today's Mood Selection -->
-    <div class="mt-5">
-        <h2 class="mb-4">How do you feel today?</h2>
-        <div class="d-flex justify-content-center flex-wrap">
+    <div class="mood-container">
+        <h2 class="mood-selection-title">How are you feeling today?</h2>
+        <div class="d-flex justify-content-center flex-wrap gap-4">
             <div class="text-center">
                 <div class="mood-icon" data-mood="relaxed">
                     <i class="fas fa-smile-beam"></i>
@@ -183,7 +274,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
@@ -202,19 +292,142 @@
     const auth = getAuth(app);
 
     let currentUser = null;
+    let charts = { bar: null, pie: null }; // Store chart instances
+    let pollingInterval = null
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            console.log("User authenticated:", user);
             currentUser = user;
-            user.getIdToken().then((idToken) => {
-                console.log("Firebase ID Token:", idToken);
-            });
+            startPolling();
         } else {
-            currentUser = null;
-            console.log("No user logged in.");
+            stopPolling();
+            console.log("No user logged in, redirecting...");
             window.location.href = "login.html";
         }
     });
+    function startPolling() {
+        // Fetch immediately on start
+        fetchWeeklyMoods();
 
+        // Then set up polling every 10 seconds
+        pollingInterval = setInterval(fetchWeeklyMoods, 10000);
+    }
+
+    function stopPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+    }
+    async function fetchWeeklyMoods() {
+        if (!currentUser) {
+            console.error("User not authenticated.");
+            return;
+        }
+
+        try {
+            const token = await currentUser.getIdToken(true);
+            console.log("Firebase Token:", token);
+
+            const response = await fetch("http://localhost:8080/moods/weekly", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (response.status === 204) {
+                // Handle no content case
+                processMoodData([]);
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+            }
+
+            const moods = await response.json();
+            console.log("Fetched Moods:", moods);
+            processMoodData(moods); // Call the correct function
+        } catch (error) {
+            console.error("Error fetching moods:", error.message);
+        }
+    }
+
+    function processMoodData(moods) {
+        const moodCounts = {};
+        moods.forEach(mood => {
+            moodCounts[mood.mood] = (moodCounts[mood.mood] || 0) + 1;
+        });
+        updateCharts(moodCounts);
+    }
+
+    function updateCharts(moodCounts) {
+        const labels = Object.keys(moodCounts);
+        const data = Object.values(moodCounts);
+
+        // Update or create bar chart
+        if (charts.bar) {
+            charts.bar.data.labels = labels;
+            charts.bar.data.datasets[0].data = data;
+            charts.bar.update();
+        } else {
+            const barCtx = document.getElementById("moodBarChart").getContext("2d");
+            charts.bar = new Chart(barCtx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Mood Count (Last 7 Days)",
+                        data: data,
+                        backgroundColor: "rgba(75, 192, 192, 0.6)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        // Update or create pie chart
+        if (charts.pie) {
+            charts.pie.data.labels = labels;
+            charts.pie.data.datasets[0].data = data;
+            charts.pie.update();
+        } else {
+            const pieCtx = document.getElementById("moodPieChart").getContext("2d");
+            charts.pie = new Chart(pieCtx, {
+                type: "pie",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+                    }]
+                }
+            });
+        }
+    }
+
+    // Cleanup function
+    function cleanup() {
+        stopPolling();
+        if (charts.bar) {
+            charts.bar.destroy();
+        }
+        if (charts.pie) {
+            charts.pie.destroy();
+        }
+    }
+
+    window.addEventListener('beforeunload', cleanup);
 
     // Base URL for your backend API
     const BASE_URL = "http://localhost:8080";
@@ -272,91 +485,6 @@
         } catch (error) {
             console.error("Error:", error);
         }
-    }
-    // Function to fetch weekly moods for Chart.js
-    async function fetchWeeklyMoods() {
-        try {
-            const idToken = await currentUser.getIdToken();
-            const response = await fetch(`${BASE_URL}/moods/weekly`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${idToken}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            if (!response.ok) {
-                throw new Error("Failed to fetch weekly moods");
-            }
-            const moods = await response.json();
-            return moods;
-        } catch (error) {
-            console.error("Error fetching weekly moods:", error);
-            return [];
-        }
-    }
-
-    // Helper function to map mood strings to numeric scores
-    function mapMoodToScore(mood) {
-        const moodMapping = {
-            "happy": 4,
-            "relaxed": 3,
-            "neutral": 2,
-            "sad": 1,
-            "stressed": 0
-        };
-        return moodMapping[mood.toLowerCase()] ?? 2;
-    }
-
-    // Process mood data for Chart.js (sorting by date, creating labels and data arrays)
-    function processMoodsData(moods) {
-        moods.sort((a, b) => a.date.localeCompare(b.date));
-        const labels = moods.map(m => m.date);
-        const data = moods.map(m => mapMoodToScore(m.mood));
-        return { labels, data };
-    }
-
-    // Render the Chart.js line chart for weekly moods
-    async function renderMoodChart() {
-        const moods = await fetchWeeklyMoods();
-        if (moods.length === 0) {
-            console.log("No mood data available to display.");
-            return;
-        }
-        const { labels, data } = processMoodsData(moods);
-        const ctx = document.getElementById('moodChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Mood Trend',
-                    data: data,
-                    fill: false,
-                    borderColor: 'rgba(28, 63, 58, 1)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 4,
-                        ticks: {
-                            callback: function(value) {
-                                const scoreToMood = {
-                                    0: "Stressed",
-                                    1: "Sad",
-                                    2: "Neutral",
-                                    3: "Relaxed",
-                                    4: "Happy"
-                                };
-                                return scoreToMood[value] || value;
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
     // Attach event listeners to mood icons using data-mood attributes

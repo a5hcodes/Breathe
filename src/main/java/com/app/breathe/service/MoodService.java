@@ -4,6 +4,7 @@ import com.app.breathe.entities.Mood;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class MoodService {
 
-    @Autowired
     private Firestore firestore;
+
+    public MoodService(Firestore firestore) {
+        this.firestore = firestore;
+    }
 
     //  Ensure UID Exists Before Saving Mood
     public void saveMood(Mood mood) throws ExecutionException, InterruptedException {
@@ -46,15 +50,22 @@ public class MoodService {
 
     // Fetch moods for the last 7 days for a given UID
     public List<Mood> getWeeklyMoods(String uid) throws ExecutionException, InterruptedException {
-        LocalDate endDate = LocalDate.now();
-        LocalDate startDate = endDate.minusDays(7);
+        if (uid == null || uid.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty.");
+        }
 
-        // Convert LocalDate to Firestore Timestamp
-        Timestamp startTimestamp = Timestamp.of(Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        Timestamp endTimestamp = Timestamp.of(Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        // Get timestamps for last 7 days
+        Instant now = Instant.now();
+        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant sevenDaysAgo = startOfToday.minusSeconds(7 * 24 * 60 * 60); // Go back exactly 7 days
 
+        Timestamp startTimestamp = Timestamp.of(Date.from(sevenDaysAgo));
+        Timestamp endTimestamp = Timestamp.of(Date.from(now)); // Use 'now' to capture all times today
+
+        // Fetch moods from Firestore
         QuerySnapshot snapshot = firestore.collection("moods")
-                .whereEqualTo("uid", uid)
+                .whereEqualTo("uid", uid) // Ensure only fetching for logged-in user
+                .orderBy("date", Query.Direction.DESCENDING) // Firestore requires ordering before range filtering
                 .whereGreaterThanOrEqualTo("date", startTimestamp)
                 .whereLessThanOrEqualTo("date", endTimestamp)
                 .get()
@@ -64,4 +75,5 @@ public class MoodService {
                 .map(doc -> doc.toObject(Mood.class))
                 .collect(Collectors.toList());
     }
+
 }

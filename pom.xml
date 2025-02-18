@@ -49,10 +49,22 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
       <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>9.1.1</version>
+        </dependency>
+        <!-- Google Cloud Firestore for Spring Boot -->
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-data-firestore</artifactId>
+            <version>3.6.0</version>
+        </dependency>
+        <!-- Spring Boot Reactive Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
     </dependencies>
 

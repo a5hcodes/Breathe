@@ -4,161 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Breathe</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Rubik+Vinyl&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #1c3f3a;
+            --secondary-color: #56786c;
+            --bg-light: #f8f9fa;
+            --text-color: #2c3e50;
+        }
+
         body {
-            font-family: "Lexend", serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            margin: 0;
-            padding: 0;
+            font-family: "Lexend", sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
         }
+
         .navbar {
-            top: 0;
-            padding: 0.5rem 1rem;
-            position: sticky;
-            z-index: 1000;
             background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
         }
-        .navbar-nav .nav-link {
-            color: #2c3e50;
-            font-weight: 600;
-            transition: color 0.3s;
+
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 500;
+            margin: 0 0.5rem;
         }
-        .navbar-nav .nav-link:hover {
-            color: #1c3f3a;
+
+        .nav-link:hover {
+            color: var(--primary-color);
         }
+
         .hero-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            min-height: 100vh;
-            background: linear-gradient(to bottom, #f4f6f8, #ffffff);
-            text-align: center;
-            padding: 2rem;
+            background-color: var(--bg-light);
+            padding: 8rem 0 4rem;
         }
-        .hero-section h1 {
-            font-family: "Lexend", serif;
-            font-size: 3rem;
-            font-weight: 600;
-            font-style: normal;
-            margin-bottom: 1rem;
-        }
-        .hero-section p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-        }
-        .logo {
-            width: 150px;
-            height: 150px;
-            display: block;
-            margin: 0 auto 1rem;
-        }
-        .cta-button, .btn {
-            background-color: #1c3f3a;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
-        }
-        .cta-button:hover, .btn:hover {
-            background-color: rgba(86,120,108,0.87)
-        }
-        #features {
-            background-color: #ffffff;
-            padding: 4rem 2rem;
-        }
-        #features h2 {
-            font-size: 2.5rem;
+
+        .section-title {
+            color: var(--primary-color);
             font-weight: 700;
-            margin-bottom: 2rem;
-            color: #1c3f3a;
+            margin-bottom: 1.5rem;
         }
+
         .feature-card {
-            background-color: #f4f6f8;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 12px;
             padding: 2rem;
-            transition: transform 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
             height: 100%;
+            border: 1px solid #eee;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
         }
 
-        .feature-card h4 {
-            font-weight: 700;
-            color: #1c3f3a;
-            margin-bottom: 1rem;
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
         }
 
-        .feature-card p {
-            font-size: 1rem;
-            color: #2c3e50;
-            flex-grow: 1; /* Makes text block flexible for even spacing */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-
-        @media (max-width: 768px) {
-            .navbar .nav-item {
-                margin-inline-end: 20px;
-            }
-            .hero-section h1 {
-                font-size: 2rem;
-            }
-            .hero-section p {
-                font-size: 1rem;
-            }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
         }
+
+        .section-light {
+            background-color: var(--bg-light);
+            padding: 5rem 0;
+        }
+
+        .section-dark {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5rem 0;
+        }
+
+        .emotion-btn {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .emotion-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
         .footer {
-            background-color: #1c3f3a;
-            color: #f8f9fa;
-            padding: 3rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
         }
+
         .footer a {
-            color: #f8f9fa;
+            color: white;
             text-decoration: none;
         }
+
         .footer a:hover {
-            color: #ffd700;
+            color: #f8f9fa;
             text-decoration: underline;
         }
-        .footer h5 {
+
+        .stats-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            color: var(--primary-color);
         }
-        .footer ul {
-            list-style-type: none;
-            padding: 0;
+
+        .section-spacing {
+            margin: 5rem 0;
         }
-        .footer ul li {
-            margin-bottom: 0.5rem;
+
+        img {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 6rem 0 3rem;
+            }
+            .section-spacing {
+                margin: 3rem 0;
+            }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
-            <img src="imgs/breath2.svg" class="img-fluid" alt="breathelogo" style="height: 45px; width: auto;">
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="imgs/breathelogo.png" alt="Breathe Logo" style="height: 40px;">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#home">Home</a>
                 </li>
@@ -166,96 +177,172 @@
                     <a class="nav-link" href="#features">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
+                    <a class="nav-link" href="#mood-tracker">Mood Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#journal">Journal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#affirmations">Affirmations</a>
                 </li>
             </ul>
+            <a href="login.html" class="btn btn-primary">Login</a>
         </div>
-        <a href="login.html" class="btn">Login</a>
     </div>
 </nav>
-<section id="home">
-<div class="hero-section">
+
+<section id="home" class="hero-section">
     <div class="container">
-            <h1>Breathe - Find Your Inner Peace</h1>
-            <p>Discover a haven of mindfulness and serenity. "Breathe" is your ultimate guide to meditation and relaxation. <br> Whether you're seeking stress relief, better focus, or a path to self-discovery, <br> our guided meditations and resources are here to support you on your journey.</p>
-            <a href="login.html" class="cta-button">Get Started</a>
-        </section>
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="section-title display-4">Find Your Inner Peace</h1>
+                <p class="lead mb-4">Your personal sanctuary for mindfulness, mood tracking, and emotional well-being. Start your journey to a calmer, more balanced life today.</p>
+                <a href="login.html" class="btn btn-primary">Begin Your Journey</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="/imgs/personmed.jpg" alt="Meditation Illustration" class="img-fluid" style="height: 450px;">
+            </div>
+        </div>
     </div>
-</div>
-<div>
-    <section id="features" class="py-5 bg-white">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col text-center">
-                    <img src="imgs/meditate.jpg" alt="Meditate" class="img-fluid" style="max-width: 70%; border-radius: 10px;">
-                </div>
+</section>
+
+<section id="features" class="section-spacing">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Features</h2>
+            <p class="lead">Discover tools designed to support your mental wellness journey</p>
         </div>
-            <br>
-            <div class="row mb-4">
-                <div class="col text-center">
-                    <h2>Why Choose Us?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h4>Mood Tracking</h4>
+                    <p>Track your daily emotions and discover patterns in your mental well-being with our intuitive mood tracking system.</p>
                 </div>
-                <br>
             </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                    <h4>Weekly Mood Analysis</h4>
-                    <p>Our weekly mood tracker offers insights into your emotional patterns and helps you understand how your mood evolves over time, empowering you to take control of your mental well-being.</p>
-                    </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-meditation feature-icon"></i>
+                    <h4>Guided Meditations</h4>
+                    <p>Access personalized meditation sessions based on your current emotional state and needs.</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                    <h4>Tailored Meditations</h4>
-                    <p>Discover the power of personalized mindfulness. Based on your mood, we curate meditation sessions designed to uplift your spirit, calm your mind, and enhance your emotional balance effectively.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                    <h4>Minimalistic UI</h4>
-                    <p>Navigate effortlessly with a sleek and intuitive interface. Our design ensures a distraction-free and seamless experience, so you can focus on what truly matters—your meditation and mindfulness journey.</p>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-book feature-icon"></i>
+                    <h4>Digital Journal</h4>
+                    <p>Document your thoughts, feelings, and experiences in your private digital journal.</p>
                 </div>
             </div>
         </div>
-    </section>
-</div>
-<div>
-<div>
-    <br>
-    <section id="contact" class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Contact Us</h5>
-                    <p>Email: <a href="mailto:support@breathe.com">support@breathe.com</a></p>
-                    <p>Phone: <a href="tel:+1234567890">+1 234 567 890</a></p>
-                    <p>Location: 123 Serenity Lane, Peaceville</p>
+    </div>
+</section>
+
+<section id="mood-tracker" class="section-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="section-title">Track Your Emotional Journey</h2>
+                <p class="lead mb-4">Our intelligent mood tracking system helps you understand your emotional patterns and recommends personalized meditation sessions.</p>
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="stats-card">
+                            <div class="stats-number">10+</div>
+                            <div>Mood Categories</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stats-card">
+                            <div class="stats-number">100+</div>
+                            <div>Meditation Sessions</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h5>Quick Links</h5>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Follow Us</h5>
-                    <a href="#" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-twitter fa-2x"></i></a>
-                    <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
-                </div>
+                <a href="#" class="btn btn-primary">Start Tracking</a>
             </div>
-            <div class="text-center mt-4">
-                <p>&copy; 2024 Breathe. All rights reserved.</p>
+            <div class="col-lg-6">
+                <img src="imgs/moodsillus.jpg" alt="Mood Tracking Dashboard" class="img-fluid">
             </div>
         </div>
-    </section>
-</div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-qBFte4gUYIbW8CV2qZp7NFDd0+1F7HcqDLGQEuA9LTz+Sm8CFNmlN7V85Z2CFlbP" crossorigin="anonymous"></script>
+    </div>
+</section>
+
+<section id="journal" class="section-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="imgs/dgjournal.jpg" alt="Journal Interface" class="img-fluid">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="section-title" style="color: white;">Express Yourself</h2>
+                <p class="lead mb-4">Your private space to reflect, process emotions, and document your journey. Write, edit, and revisit your thoughts whenever you need.</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-check me-2"></i> Secure and private journaling</li>
+                    <li class="mb-3"><i class="fas fa-check me-2"></i> Easy editing and organization</li>
+                    <li class="mb-3"><i class="fas fa-check me-2"></i> Mood-based journal prompts</li>
+                </ul>
+                <a href="#" class="btn btn-primary" style="background-color: white; color: var(--primary-color);">Start Writing</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="affirmations" class="section-spacing">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Daily Affirmations</h2>
+            <p class="lead">Choose your emotion and receive uplifting affirmations to support your mental well-being</p>
+        </div>
+        <div class="text-center mb-5">
+            <button class="emotion-btn">Anxious</button>
+            <button class="emotion-btn">Stressed</button>
+            <button class="emotion-btn">Sad</button>
+            <button class="emotion-btn">Overwhelmed</button>
+            <button class="emotion-btn">Grateful</button>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="feature-card text-center">
+                    <i class="fas fa-heart feature-icon"></i>
+                    <p class="lead">"You are capable of amazing things. Take a deep breath and embrace your strength."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>About Breathe</h5>
+                <p>Your companion for mental wellness, meditation, and mindful living.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#mood-tracker">Mood Tracker</a></li>
+                    <li><a href="#journal">Journal</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Connect With Us</h5>
+                <div class="social-icons">
+                    <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; 2024 Breathe. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

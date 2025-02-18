@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affirmations - Breathe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1c3f3a;
+            --secondary-color: #56786c;
+            --bg-light: #f8f9fa;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: "Lexend", sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .category-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .emotion-btn {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .emotion-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .emotion-btn.btn-danger { border-color: #dc3545; color: #dc3545; }
+        .emotion-btn.btn-danger:hover { background-color: #dc3545; color: white; }
+
+        .emotion-btn.btn-warning { border-color: #ffc107; color: #ffc107; }
+        .emotion-btn.btn-warning:hover { background-color: #ffc107; color: white; }
+
+        .emotion-btn.btn-info { border-color: #0dcaf0; color: #0dcaf0; }
+        .emotion-btn.btn-info:hover { background-color: #0dcaf0; color: white; }
+
+        .emotion-btn.btn-success { border-color: #198754; color: #198754; }
+        .emotion-btn.btn-success:hover { background-color: #198754; color: white; }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            padding: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        audio::-webkit-media-controls-panel {
+            background-color: var(--bg-light);
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="imgs/breathelogo.png" alt="Breathe Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="journal.html">Journal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="healing.html">Affirmations</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1 class="display-5 fw-bold mb-3">Daily Affirmations</h1>
+            <p class="lead mb-0">Choose a category below and let positive affirmations guide your day</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <!-- Emotions Section -->
+    <div class="category-card">
+        <h3 class="category-title">
+            <i class="fas fa-heart me-2"></i>
+            Emotions
+        </h3>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button class="emotion-btn btn-danger" data-emotion="anger">Anger</button>
+            <button class="emotion-btn btn-warning" data-emotion="stress">Stress</button>
+            <button class="emotion-btn btn-info" data-emotion="anxiety">Anxiety</button>
+            <button class="emotion-btn" data-emotion="sadness">Sadness</button>
+            <button class="emotion-btn btn-dark" data-emotion="fear">Fear</button>
+            <button class="emotion-btn btn-primary" data-emotion="loneliness">Loneliness</button>
+            <button class="emotion-btn btn-success" data-emotion="confidence">Confidence</button>
+            <button class="emotion-btn" data-emotion="guilt">Guilt</button>
+            <button class="emotion-btn btn-danger" data-emotion="grief">Grief</button>
+            <button class="emotion-btn btn-warning" data-emotion="overthinking">Overthinking</button>
+        </div>
+    </div>
+
+    <!-- Growth Section -->
+    <div class="category-card">
+        <h3 class="category-title">
+            <i class="fas fa-seedling me-2"></i>
+            Growth
+        </h3>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button class="emotion-btn btn-success" data-emotion="success">Success</button>
+            <button class="emotion-btn btn-info" data-emotion="resilience">Resilience</button>
+            <button class="emotion-btn btn-primary" data-emotion="healing">Healing</button>
+            <button class="emotion-btn btn-warning" data-emotion="self-love">Self-Love</button>
+            <button class="emotion-btn" data-emotion="forgiveness">Forgiveness</button>
+        </div>
+    </div>
+
+    <!-- Relationships Section -->
+    <div class="category-card">
+        <h3 class="category-title">
+            <i class="fas fa-users me-2"></i>
+            Relationships
+        </h3>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button class="emotion-btn btn-danger" data-emotion="love">Love</button>
+            <button class="emotion-btn btn-info" data-emotion="friendship">Friendship</button>
+            <button class="emotion-btn" data-emotion="parenting">Parenting</button>
+            <button class="emotion-btn btn-dark" data-emotion="breakups">Breakups</button>
+            <button class="emotion-btn btn-primary" data-emotion="workplace">Workplace</button>
+        </div>
+    </div>
+
+    <!-- Situations Section -->
+    <div class="category-card">
+        <h3 class="category-title">
+            <i class="fas fa-clock me-2"></i>
+            Situations
+        </h3>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button class="emotion-btn btn-success" data-emotion="morning">Morning</button>
+            <button class="emotion-btn btn-dark" data-emotion="night">Night</button>
+            <button class="emotion-btn btn-primary" data-emotion="preparation">Preparation</button>
+            <button class="emotion-btn btn-info" data-emotion="recovery">Recovery</button>
+        </div>
+    </div>
+</div>
+
+<!-- Affirmation Modal -->
+<div class="modal fade" id="affirmationModal" tabindex="-1" aria-labelledby="affirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="affirmationModalLabel">
+                    <i class="fas fa-meditation me-2"></i>
+                    Daily Affirmation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p id="selected-emotion-text" class="lead mb-4"></p>
+                <audio id="audio-player" controls class="w-100">
+                    <source id="audio-source" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(".emotion-btn");
+        const modal = new bootstrap.Modal(document.getElementById("affirmationModal"));
+        const audioPlayer = document.getElementById("audio-player");
+        const audioSource = document.getElementById("audio-source");
+        const selectedEmotionText = document.getElementById("selected-emotion-text");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", async () => {
+                const emotion = button.getAttribute("data-emotion");
+                selectedEmotionText.innerText = `Affirmation for ${emotion}`;
+
+                try {
+                    const response = await fetch(`http://localhost:8080/api/affirmations/${emotion}`);
+                    if (!response.ok) throw new Error("Failed to fetch data");
+
+                    const data = await response.json();
+                    if (!data || !data.audioUrl) throw new Error("No audio found");
+
+                    audioSource.src = data.audioUrl;
+                    audioPlayer.load();
+                    audioPlayer.play();
+
+                    modal.show();
+                } catch (error) {
+                    alert("Error fetching affirmation: " + error.message);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

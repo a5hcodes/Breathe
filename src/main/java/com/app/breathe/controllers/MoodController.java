@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/moods")
 public class MoodController {
@@ -44,7 +45,7 @@ public class MoodController {
             List<Mood> moods = moodService.getWeeklyMoods(uid);
 
             if (moods.isEmpty()) {
-                return ResponseEntity.noContent().build(); // ✅ Correct HTTP 204 for empty results
+                return ResponseEntity.noContent().build();
             } else {
                 return ResponseEntity.ok(moods);
             }

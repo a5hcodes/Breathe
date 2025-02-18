@@ -27,7 +27,7 @@ public class FirebaseConfig {
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("✅ Firebase initialized successfully.");
+                System.out.println("Firebase initialized successfully.");
             }
 
             firestore = FirestoreClient.getFirestore();
