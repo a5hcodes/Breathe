@@ -30,6 +30,40 @@
             padding: 1rem 0;
         }
 
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+        .mood-label {
+            text-align: center;
+            margin-top: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .btn-logout {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         .section-title {
             color: var(--primary-color);
             font-weight: 700;
@@ -149,6 +183,7 @@
                     <a class="nav-link" href="healing.html">Affirmations</a>
                 </li>
             </ul>
+            <a class="btn btn-logout" id="logoutBtn" href="#">Logout</a>
         </div>
     </div>
 </nav>

@@ -1,131 +1,74 @@
 package com.app.breathe.entities;
 
 import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.PropertyName;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Journal {
 
-    @DocumentId
     private String jid;
-
-    @PropertyName("uid")
     private String uid;
-
-    @PropertyName("title")
     private String title;
-
-    @PropertyName("content")
     private String content;
-
-    @PropertyName("createdAt")
     private Timestamp createdAt;
-
-    @PropertyName("updatedAt")
     private Timestamp updatedAt;
-
-    @PropertyName("isDeleted")
-    private boolean isDeleted;
-
-    @PropertyName("versions")
+    private boolean deleted;
     private List<JournalVersion> versions;
 
     public Journal() {
         this.versions = new ArrayList<>();
     }
 
-    public Journal(String jid, String uid, String title, String content,
-                   Timestamp createdAt, Timestamp updatedAt, boolean isDeleted,
-                   List<JournalVersion> versions) {
+    public Journal(String jid, String uid, String title, String content, Timestamp createdAt, Timestamp updatedAt, boolean deleted, List<JournalVersion> versions) {
         this.jid = jid;
         this.uid = uid;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.isDeleted = isDeleted;
-        this.versions = versions != null && !versions.isEmpty() ? versions : null;
+        this.deleted = deleted;
+        this.versions = (versions != null) ? versions : new ArrayList<>();
     }
 
-    public String getJid() {
-        return jid;
-    }
+    @PropertyName("jid")
+    public String getJid() { return jid; }
+    @PropertyName("jid")
+    public void setJid(String jid) { this.jid = jid; }
 
-    public void setJid(String jid) {
-        this.jid = jid;
-    }
+    @PropertyName("uid")
+    public String getUid() { return uid; }
+    @PropertyName("uid")
+    public void setUid(String uid) { this.uid = uid; }
 
-    public String getUid() {
-        return uid;
-    }
+    @PropertyName("title")
+    public String getTitle() { return title; }
+    @PropertyName("title")
+    public void setTitle(String title) { this.title = title; }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    @PropertyName("content")
+    public String getContent() { return content; }
+    @PropertyName("content")
+    public void setContent(String content) { this.content = content; }
 
-    public String getTitle() {
-        return title;
-    }
+    @PropertyName("createdAt")
+    public Timestamp getCreatedAt() { return createdAt; }
+    @PropertyName("createdAt")
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @PropertyName("updatedAt")
+    public Timestamp getUpdatedAt() { return updatedAt; }
+    @PropertyName("updatedAt")
+    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
 
-    public String getContent() {
-        return content;
-    }
+    @PropertyName("deleted")
+    public boolean isDeleted() { return deleted; }
+    @PropertyName("deleted")
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public List<JournalVersion> getVersions() {
-        return versions == null || versions.isEmpty() ? null : versions;
-    }
-
-    public void setVersions(List<JournalVersion> versions) {
-        this.versions = versions != null && !versions.isEmpty() ? versions : null;
-    }
-
-    @Override
-    public String toString() {
-        return "Journal{" +
-                "jid='" + jid + '\'' +
-                ", uid='" + uid + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", isDeleted=" + isDeleted +
-                ", versions=" + versions +
-                '}';
-    }
+    @PropertyName("versions")
+    public List<JournalVersion> getVersions() { return versions; }
+    @PropertyName("versions")
+    public void setVersions(List<JournalVersion> versions) { this.versions = versions; }
 }

@@ -7,6 +7,7 @@ import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -22,11 +23,19 @@ public class JournalService {
     }
 
     public List<Journal> getAllJournalsByUser(String uid) throws ExecutionException, InterruptedException {
+        System.out.println("Fetching journals for UID: " + uid); // Debug log
+
         QuerySnapshot snapshot = firestore.collection("journals")
                 .whereEqualTo("uid", uid)
-                .whereEqualTo("isDeleted", false)
+                .whereEqualTo("deleted", false)
                 .get()
                 .get();
+
+        System.out.println("📌 Found " + snapshot.size() + " journal(s)");
+
+        if (snapshot.isEmpty()) {
+            return new ArrayList<>();
+        }
 
         return snapshot.getDocuments().stream()
                 .map(doc -> doc.toObject(Journal.class))
@@ -34,7 +43,8 @@ public class JournalService {
     }
 
     public Journal addJournal(Journal journal) throws ExecutionException, InterruptedException {
-        if (journal.getTitle().isEmpty() || journal.getContent().isEmpty()) {
+        if (journal.getTitle() == null || journal.getTitle().trim().isEmpty() ||
+                journal.getContent() == null || journal.getContent().trim().isEmpty()) {
             throw new IllegalArgumentException("Title and Content cannot be empty");
         }
 
@@ -49,7 +59,7 @@ public class JournalService {
 
     public boolean deleteJournal(String jid) throws ExecutionException, InterruptedException {
         DocumentReference journalRef = firestore.collection("journals").document(jid);
-        journalRef.update("isDeleted", true).get();
+        journalRef.update("deleted", true).get();
         return true;
     }
 
@@ -57,28 +67,22 @@ public class JournalService {
         DocumentReference journalRef = firestore.collection("journals").document(jid);
         DocumentSnapshot document = journalRef.get().get();
 
-        if (!document.exists()) throw new IllegalArgumentException("Journal not found");
+        if (!document.exists()) {
+            throw new IllegalArgumentException("Journal not found");
+        }
 
         Journal journal = document.toObject(Journal.class);
 
-        // Add previous version before updating
-        if (journal.getVersions() != null) {
-            journal.getVersions().add(new JournalVersion(journal.getTitle(), journal.getContent(), journal.getUpdatedAt()));
-        } else {
-            journal.setVersions(List.of(new JournalVersion(journal.getTitle(), journal.getContent(), journal.getUpdatedAt())));
-        }
+        // Ensure versions list is mutable
+        List<JournalVersion> versions = journal.getVersions() != null ? new ArrayList<>(journal.getVersions()) : new ArrayList<>();
+        versions.add(new JournalVersion(journal.getTitle(), journal.getContent(), journal.getUpdatedAt()));
 
         journal.setTitle(newTitle);
         journal.setContent(newContent);
         journal.setUpdatedAt(Timestamp.now());
+        journal.setVersions(versions);
 
-        // Remove versions if empty
-        if (journal.getVersions().isEmpty()) {
-            journalRef.update("versions", FieldValue.delete()).get();
-        } else {
-            journalRef.set(journal).get();
-        }
-
+        journalRef.set(journal).get();
         return journal;
     }
 }
