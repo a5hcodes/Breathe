@@ -5,9 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Journal | Breathe</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1c3f3a;
+      --secondary-color: #56786c;
+      --bg-light: #f8f9fa;
+      --text-color: #2c3e50;
+    }
+
+    body {
+      font-family: "Lexend", sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background-color: var(--bg-light);
+    }
+
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem 0;
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    #journal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* Journal Cards */
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+      color: var(--text-color);
+    }
+
+    /* Add Entry Button */
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 0.5rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #25534c;
+      border-color: #25534c;
+      transform: translateY(-2px);
+    }
+
+    /* Logout Button */
+    .btn-logout {
+      background-color: white;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Modal Styling */
+    .modal-content {
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+
+    /* Form Controls */
+    .form-control {
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 0 0.25rem rgba(28, 63, 58, 0.25);
+      border-color: var(--primary-color);
+    }
+
+    #journal-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    #journal-content {
+      min-height: 200px;
+    }
+
+    /* Loading Spinner */
+    .spinner-border {
+      color: var(--primary-color);
+      width: 3rem;
+      height: 3rem;
+    }
+
+    /* Empty State */
+    #empty-state {
+      padding: 3rem 0;
+    }
+
+    #empty-state h3 {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding-top: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
   <div class="container">
     <a class="navbar-brand" href="#">
       <img src="imgs/breathelogo.png" alt="Breathe Logo" height="40">
@@ -27,21 +208,21 @@
           <a class="nav-link" href="healing.html">Affirmations</a>
         </li>
       </ul>
-      <button class="btn btn-danger" id="logoutBtn">Logout</button>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
     </div>
   </div>
 </nav>
 
-<div class="container mt-5 pt-4">
+<div class="container" style="margin-top: 100px;">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>My Journal</h1>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#journalModal">
-      Add New Entry
+      <i class="fas fa-plus me-1"></i> Add New Entry
     </button>
   </div>
 
   <!-- Loading Spinner -->
-  <div id="loading-spinner" class="text-center">
+  <div id="loading-spinner" class="text-center py-5">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -76,7 +257,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" id="delete-entry" class="btn btn-danger me-auto" style="display: none;">Delete</button>
+        <button type="button" id="delete-entry" class="btn btn-outline-danger me-auto" style="display: none;">Delete</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary" id="save-journal">Save</button>
       </div>
@@ -104,6 +285,10 @@
   let currentJournalId = null;
   const API_BASE_URL = '/api/journals';
 
+  // Initialize the Bootstrap modal
+  const journalModalEl = document.getElementById('journalModal');
+  const journalModal = new bootstrap.Modal(journalModalEl);
+
   // Authentication state observer
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -111,7 +296,7 @@
         currentUserId = user.uid;
         console.log('Current user UID:', currentUserId);
 
-        // Get the authentication token
+        // Get the authentication token if needed
         const token = await user.getIdToken();
         console.log('Firebase Auth Token:', token);
 
@@ -143,8 +328,7 @@
       const response = await fetch(`${API_BASE_URL}/user/${uid}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          // Add any authentication headers if needed
+          'Content-Type': 'application/json'
         }
       });
 
@@ -173,14 +357,13 @@
     }
   }
 
-  // Updated render function to handle Firestore timestamps
+  // Render journals in the grid
   function renderJournals(journals) {
     const grid = document.getElementById('journal-grid');
     grid.innerHTML = '';
 
-    // Sort journals by created date
+    // Sort journals by created date (handles Firestore Timestamps and ISO strings)
     journals.sort((a, b) => {
-      // Handle both Firestore Timestamp and ISO string formats
       const getDate = (timestamp) => {
         if (timestamp && timestamp.seconds) {
           return new Date(timestamp.seconds * 1000);
@@ -188,53 +371,35 @@
         return new Date(timestamp);
       };
 
-      const dateA = getDate(a.createdAt);
-      const dateB = getDate(b.createdAt);
-      return dateB - dateA;
+      return getDate(b.createdAt) - getDate(a.createdAt);
     });
 
     journals.forEach(journal => {
       const col = document.createElement('div');
       col.className = 'col-md-4 mb-4';
 
-      // Format the date
       const createdDate = journal.createdAt && journal.createdAt.seconds
               ? new Date(journal.createdAt.seconds * 1000)
               : new Date(journal.createdAt);
 
       col.innerHTML = `
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">${journal.title}</h5>
-                    <p class="card-text">${journal.content.length > 140 ?
-              journal.content.substring(0, 140) + "..." :
-              journal.content}</p>
-                    <p class="card-text">
-                        <small class="text-muted">Created: ${createdDate.toLocaleDateString()}
-                        ${createdDate.toLocaleTimeString()}</small>
-                    </p>
-                </div>
-            </div>
-        `;
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">${journal.title}</h5>
+            <p class="card-text">${journal.content.length > 140 ? journal.content.substring(0, 140) + "..." : journal.content}</p>
+            <p class="card-text">
+              <small class="text-muted">Created: ${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}</small>
+            </p>
+          </div>
+        </div>
+      `;
 
       col.querySelector('.card').addEventListener('click', () => openJournalModal(journal));
       grid.appendChild(col);
     });
   }
 
-  // Add event listener for page load
-  document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is already authenticated
-    const user = auth.currentUser;
-    if (user) {
-      console.log('User already authenticated:', user.uid);
-      fetchUserJournals(user.uid);
-    }
-  });
-  // Initialize the Bootstrap modal properly
-  const journalModal = new bootstrap.Modal(document.getElementById('journalModal'));
-
-  // Function to open the journal modal
+  // Open journal modal for creating or editing a journal entry
   function openJournalModal(journal = null) {
     const modalTitle = document.getElementById('modalTitle');
     const deleteBtn = document.getElementById('delete-entry');
@@ -253,10 +418,10 @@
       currentJournalId = null;
     }
 
-    journalModal.show(); // Now, this will work
+    journalModal.show();
   }
 
-  // Update the saveJournal function
+  // Save or update journal entry
   async function saveJournal() {
     const title = document.getElementById('journal-title').value.trim();
     const content = document.getElementById('journal-content').value.trim();
@@ -269,16 +434,18 @@
     try {
       let response;
       if (currentJournalId) {
+        // Update existing journal
         response = await fetch(`${API_BASE_URL}/update/${currentJournalId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ title, content })
         });
       } else {
+        // Create a new journal entry
         const journalData = {
           uid: currentUserId,
-          title: title,
-          content: content,
+          title,
+          content,
           isDeleted: false,
           versions: []
         };
@@ -298,7 +465,7 @@
       const savedJournal = await response.json();
       console.log('Saved journal:', savedJournal);
 
-      journalModal.hide(); // Now, this will work
+      journalModal.hide();
       await fetchUserJournals(currentUserId);
     } catch (error) {
       console.error("Error saving journal:", error);
@@ -306,39 +473,7 @@
     }
   }
 
-
-  // // Update the renderJournals function to handle Timestamp
-  // function renderJournals(journals) {
-  //   const grid = document.getElementById('journal-grid');
-  //   grid.innerHTML = '';
-  //
-  //   journals.sort((a, b) => {
-  //     const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt);
-  //     const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt);
-  //     return dateB - dateA;
-  //   });
-  //
-  //   journals.forEach(journal => {
-  //     const col = document.createElement('div');
-  //     col.className = 'col-md-4';
-  //     const createdDate = journal.createdAt?.toDate?.() || new Date(journal.createdAt);
-  //
-  //     col.innerHTML = `
-  //           <div class="card h-100 hover-shadow cursor-pointer">
-  //               <div class="card-body">
-  //                   <h5 class="card-title">${journal.title}</h5>
-  //                   <p class="card-text">${journal.content.length > 140 ? journal.content.substring(0, 140) + "..." : journal.content}</p>
-  //                   <p class="card-text"><small class="text-muted">${createdDate.toLocaleDateString()}</small></p>
-  //               </div>
-  //           </div>
-  //       `;
-  //
-  //     col.querySelector('.card').addEventListener('click', () => openJournalModal(journal));
-  //     grid.appendChild(col);
-  //   });
-  // }
-
-  // Delete journal
+  // Delete journal entry
   async function deleteJournal() {
     if (!confirm('Are you sure you want to delete this entry?')) return;
 
@@ -347,9 +482,12 @@
         method: 'DELETE'
       });
 
-      if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
 
-      closeModal();
+      // Close modal after deletion
+      journalModal.hide();
       await fetchUserJournals(currentUserId);
     } catch (error) {
       console.error("Error deleting journal:", error);
@@ -357,7 +495,7 @@
     }
   }
 
-  // Event Listeners
+  // Event listeners
   document.getElementById('save-journal').addEventListener('click', saveJournal);
   document.getElementById('delete-entry').addEventListener('click', deleteJournal);
   document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -367,6 +505,15 @@
       console.error("Logout error:", error);
       alert("Failed to log out. Please try again.");
     });
+  });
+
+  // Check if user is already authenticated when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = auth.currentUser;
+    if (user) {
+      console.log('User already authenticated:', user.uid);
+      fetchUserJournals(user.uid);
+    }
   });
 </script>
 

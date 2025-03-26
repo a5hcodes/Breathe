@@ -27,19 +27,22 @@ public class JournalService {
 
         QuerySnapshot snapshot = firestore.collection("journals")
                 .whereEqualTo("uid", uid)
-                .whereEqualTo("deleted", false)
+                .whereEqualTo("deleted", false) // ✅ Match Firestore field name
                 .get()
                 .get();
-
-        System.out.println("📌 Found " + snapshot.size() + " journal(s)");
 
         if (snapshot.isEmpty()) {
             return new ArrayList<>();
         }
 
-        return snapshot.getDocuments().stream()
-                .map(doc -> doc.toObject(Journal.class))
+        List<Journal> journals = snapshot.getDocuments().stream()
+                .map(doc -> {
+                    System.out.println("Journal Data: " + doc.getData()); // Log fetched data
+                    return doc.toObject(Journal.class);
+                })
                 .collect(Collectors.toList());
+
+        return journals;
     }
 
     public Journal addJournal(Journal journal) throws ExecutionException, InterruptedException {
@@ -59,7 +62,7 @@ public class JournalService {
 
     public boolean deleteJournal(String jid) throws ExecutionException, InterruptedException {
         DocumentReference journalRef = firestore.collection("journals").document(jid);
-        journalRef.update("deleted", true).get();
+        journalRef.update("isDeleted", true).get();
         return true;
     }
 
@@ -82,7 +85,9 @@ public class JournalService {
         journal.setUpdatedAt(Timestamp.now());
         journal.setVersions(versions);
 
+        // Update Firestore document
         journalRef.set(journal).get();
+
         return journal;
     }
 }

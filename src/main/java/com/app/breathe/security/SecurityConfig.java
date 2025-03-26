@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // Disable CSRF protection
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/moods/**", "/meditations/**").authenticated() // Protect API routes
+                        .requestMatchers("/moods/**", "/meditations/**","/api/journal/**").authenticated() // Protect API routes
                         .anyRequest().permitAll() // Allow all other requests
                 )
                 .addFilterBefore(firebaseAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
