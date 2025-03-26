@@ -4,8 +4,6 @@ import com.google.cloud.spring.data.firestore.repository.config.EnableReactiveFi
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.FileInputStream;
-
 @EnableReactiveFirestoreRepositories
 @SpringBootApplication
 public class BreatheApplication {
@@ -13,5 +11,4 @@ public class BreatheApplication {
     public static void main(String[] args) {
         SpringApplication.run(BreatheApplication.class, args);
     }
-
 }

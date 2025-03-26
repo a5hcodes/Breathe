@@ -51,6 +51,7 @@ public class AffirmationService {
             return new Affirmation(aid, emotion, audioUrl);
         } catch (InterruptedException | ExecutionException e) {
             LOGGER.log(Level.SEVERE, "Error fetching random affirmation for emotion: " + emotion, e);
+            Thread.currentThread().interrupt();
             return null;
         }
     }
