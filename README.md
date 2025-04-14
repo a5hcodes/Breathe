@@ -86,8 +86,8 @@ All modules were rigorously tested through manual test cases:
 ## 📌 Author
 
 **Aishwarya Rajan**  
-B.Sc. Computer Science – Pillai College, Mumbai  
-[LinkedIn](#) | [Portfolio](#) | [GitHub](#)
+B.Sc. Computer Science – Pillai College of Arts, Commerce and Science, Mumbai  
+[LinkedIn](linkedin.com/in/a5hcodes) | [GitHub](github.com/a5hcodes)
 
 ---
 
